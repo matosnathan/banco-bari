@@ -1,0 +1,9 @@
+**/obj
+**/bin
+.vs
+.idea
+GV.Core/GV.Core.csproj.user
+.user
+GV.Core.Emission.sln.DotSettings.user
+/Core.Service/Core.Service.csproj.user
+/GV.Repository/GV.Repository.csproj.user
