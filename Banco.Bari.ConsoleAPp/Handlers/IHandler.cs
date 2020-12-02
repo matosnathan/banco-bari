@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Banco.Bari.ConsoleAPp.Handlers
+﻿namespace Banco.Bari.ConsoleApp.Handlers
 {
     public interface IHandler<MessageCommand>
     {

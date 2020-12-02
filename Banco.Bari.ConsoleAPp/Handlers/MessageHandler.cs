@@ -1,23 +1,17 @@
-﻿using Banco.Bari.ConsoleAPp.Commands;
-using Banco.Bari.ConsoleAPp.Providers;
-using Banco.Bari.ConsoleAPp.Services;
-using EasyNetQ.Consumer;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Banco.Bari.ConsoleApp.Services;
 
-namespace Banco.Bari.ConsoleAPp.Handlers
+namespace Banco.Bari.ConsoleApp.Handlers
 {
-    public class MessageHandler : IHandler<MessageCommand>
+    public class MessageHandler : IHandler<Message>
     {
-        private readonly IUserActionService _actionService;
+        private readonly IWritterService _actionService;
 
-        public MessageHandler(IUserActionService actionService)
+        public MessageHandler(IWritterService actionService)
         {
             _actionService = actionService;
         }
 
-        public void Handle(MessageCommand message)
+        public void Handle(Message message)
         {
             _actionService.PrintMessage(message);   
         }

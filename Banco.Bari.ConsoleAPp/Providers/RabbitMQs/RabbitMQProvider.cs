@@ -1,25 +1,23 @@
-﻿using Banco.Bari.ConsoleAPp.Commands;
-using Banco.Bari.ConsoleAPp.Handlers;
-using Banco.Bari.ConsoleAPp.Models.Settings;
+﻿using Banco.Bari.ConsoleApp.Handlers;
+using Banco.Bari.ConsoleApp.Models;
 using EasyNetQ;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 
-namespace Banco.Bari.ConsoleAPp.Providers
+namespace Banco.Bari.ConsoleApp.Providers
 {
     public class RabbitMQProvider : IRabbitMQProvider
     {
         private IBus _bus;
         private readonly IConfiguration _configuration;
         private readonly App _app;
-        private readonly Consumers _consumers;
         private readonly IServiceProvider _services;
-        public RabbitMQProvider(IConfiguration configuration, IServiceProvider services, App app, Consumers consumers)
+        public RabbitMQProvider(IConfiguration configuration, IServiceProvider services, App app)
         {
             _configuration = configuration;
             _app = app;
-            _consumers = consumers;
             _services = services;
         }
         private void Connect()
@@ -32,21 +30,17 @@ namespace Banco.Bari.ConsoleAPp.Providers
         {
             Connect();
 
-            var command = new MessageCommand(_app.Name, message);
+            var command = new Message(_app.Name, message);
             _bus.PubSub.Publish(command, topic);
         }
 
-        public void Subscribe(string topic)
+        public void Subscribe<THandler>(string topic) where THandler: IHandler<Message>
         {
-            Connect();
+            Connect();            
 
-            var handler = _consumers.Handlers.FirstOrDefault(x => x.Topic == topic);
-            if (handler == null)
-                return;
+            var handlerInstance = _services.GetService<THandler>();
 
-            var handlerInstance = (IHandler<MessageCommand>)_services.GetService(handler.Handler);
-
-            _bus.PubSub.Subscribe<MessageCommand>(Guid.NewGuid().ToString(), (message) => handlerInstance.Handle(message));
+            _bus.PubSub.Subscribe<Message>(Guid.NewGuid().ToString(), (message) => handlerInstance.Handle(message));
         }
     }
 }
