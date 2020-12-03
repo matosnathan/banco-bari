@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Banco.Bari.ConsoleApp", "Banco.Bari.ConsoleAPp\Banco.Bari.ConsoleApp.csproj", "{B68C4E15-65DA-47AA-A350-8C10AA281C5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Banco.Bari.ConsoleApp", "Banco.Bari.ConsoleApp\Banco.Bari.ConsoleApp.csproj", "{B68C4E15-65DA-47AA-A350-8C10AA281C5C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Banco.Bari.Tests", "Banco.Bari.Tests\Banco.Bari.Tests.csproj", "{B66AD0F0-CBAD-49C1-801B-7638285A6D5B}"
 EndProject
