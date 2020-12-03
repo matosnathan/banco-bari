@@ -1,4 +1,5 @@
-﻿using Banco.Bari.ConsoleApp.Handlers;
+﻿using Banco.Bari.ConsoleApp.Domain.Models;
+using Banco.Bari.ConsoleApp.Handlers;
 using Banco.Bari.ConsoleApp.Models;
 using Banco.Bari.ConsoleApp.Providers;
 using Banco.Bari.ConsoleApp.Services;
@@ -31,6 +32,7 @@ namespace Banco.Bari.ConsoleApp.Setup
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddSingleton<IWritterService, WritterService>();
+            services.AddSingleton<IMessagingFacade, MessagingFacade>();
             return services;
         }
 
@@ -49,9 +51,14 @@ namespace Banco.Bari.ConsoleApp.Setup
             var faker = new Faker();
 
             var configuration = builder.Build();
+
+            var mqConnection = new MQConnection(configuration.GetSection("RabbitMQ:Host").Value);
+
             services
             .AddSingleton<IConfiguration>(configuration)
-            .AddSingleton<App>(new App { Name = faker.Name.JobArea() });
+            .AddSingleton<App>(new App(faker.Name.JobArea()))
+            .AddSingleton<MQConnection>(mqConnection);
+            
 
             return services;
         }
